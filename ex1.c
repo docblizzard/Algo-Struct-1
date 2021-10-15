@@ -12,10 +12,21 @@ void tri_fusionr(int * tab, int taille){
     for(int i=0;i<taille;i++) tab[i]=T[i];
 }
 
-
+void tri_fusionb(int * tab, int taille){
+    int T[taille];
+    int tailletmp = taille;
+    while (tailletmp >= 1 ) {
+        fusion(tab, tailletmp/2, tab+tailletmp/2, tailletmp- tailletmp/2, T);
+        
+        fusion(tab+taille/2, tailletmp/2, tab+tailletmp/2, tailletmp- tailletmp/2, T)
+        tailletmp = tailletmp/2;
+    }    
+    for(int i=0;i<taille;i++) tab[i]=T[i];
+}  
 int main(int argc, char** argv){
     int tab[10] = {24,58,30,10,87 ,25,16,62,42,90};
-    tri_fusionr(tab,10);
+    //tri_fusionr(tab,10);
+    tri_fusionb(tab,10);
     for(int i=0;i<10;i++) printf("%d ",tab[i]);
 }   
 
@@ -37,4 +48,3 @@ void fusion(int *T1, int t1, int *T2 , int t2, int *T){
     while(i1<t1) T[k++] = T1[i1++];
     while(i2<t2) T[k++] = T2[i2++];
 }   
-
