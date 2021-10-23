@@ -4,10 +4,21 @@
 typedef struct Cel Cel;
 typedef struct Liste Liste;
 void insertion(Liste *liste, Cel *c);
-void suppression(Liste *liste);
+void afficherListe(Liste *liste);
+int estVide(Liste *liste);
+Cel * allouerCellule(int val);
+Liste *initialisation();
+
 
 int main(int argc, char** argv){
-    Liste *arr = initialisation();
+    Liste *list = malloc(sizeof(initialisation()));
+    list = initialisation();
+    insertion(list,allouerCellule(10));
+    //insertion(list,allouerCellule(25));
+    //printf("%d\n",estVide(list));
+ 
+
+    afficherListe(list);
 
 }
 typedef struct Cel Cel;
@@ -54,3 +65,16 @@ void insertion(Liste *liste, Cel *c){
     liste->premier = c;
 }
 
+void afficherListe(Liste *liste){
+    Cel *cel = liste->premier;
+    while (cel != NULL){
+        printf("%d\n", cel->valeur);
+        cel = cel->suivant;
+    }
+}
+int estVide(Liste *liste){
+    if (liste->premier == 0){
+        return 1;
+    }
+    else return 0;
+}
