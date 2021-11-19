@@ -83,18 +83,16 @@ Noeud *Recherche(Arbre a, int x){
 }
 
 Noeud *extraireMax(Arbre *a){
-    int max = (*a)->val;
-    Noeud temp = a;
-    while (temp != NULL){
-        if (temp->d->val > max){
-            max = temp->d->val;
-            temp = temp->d;
-        }
-        if (temp->g->val > max){
-            max = temp->g->val;
-            temp = temp->g;
-        }
+    if (*a == NULL){
+        return NULL;
     }
-    printf("%d",max);
-    return temp;
+    if ((*a)->val < (*a)->d->val){
+        return extraireMax(&(*a)->d);
+    }
+    if ((*a)->val > (*a)->d->val){
+        return *a;
+    } 
+    else return extraireMax(&(*a)->g);
+
+
 }
