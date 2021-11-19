@@ -81,7 +81,7 @@ Noeud *Recherche(Arbre a, int x){
     else return Recherche(a->g,x);
     
 }
-
+// EX4
 Noeud *extraireMax(Arbre *a){
     if (*a == NULL){
         return NULL;
@@ -92,7 +92,7 @@ Noeud *extraireMax(Arbre *a){
     if ((*a)->val > (*a)->d->val){
         return *a;
     } 
-    else return extraireMax(&(*a)->g);
+    else return extraireMax(&(*a)->d);
 
 
 }
