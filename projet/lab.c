@@ -29,7 +29,7 @@ int main(void){
     fclose(file);
 
 }
-
+// Initialization of the labyrinth
 void labcreation(Salle lab, FILE * plan){
     char string[9];
     int num, N, S, E, O;
