@@ -1,0 +1,8 @@
+debutPlan
+A1 0.N-1.S;
+A2 0.O-2.E;
+A3 0.E-3.O;
+B1 1.O-4.E;
+B2 1.E-5.O;
+B3 1.N-6.S;
+finPlan
