@@ -15,7 +15,7 @@ typedef struct salle{
 } Salle;
 
 typedef struct knight{
-    int pos[LAB_SIZE];
+    int pos;
     int key;
 } Knight;
 
@@ -28,7 +28,9 @@ int main(void){
     //printf("%d ", lab[3].num);
     labcreation(lab, file);
     fclose(file);
-    printf("%d", lab[4].num);
+    printf("%d ", lab[0].num);
+    printf("%d ", lab[1].num);
+    printf("%d ", lab[3].O->num);
 
 }
 // Initialization of the labyrinth
@@ -40,10 +42,42 @@ void labcreation(Salle *lab, FILE * plan){
         while ( fscanf(plan, "%s %d.%c-%d.%c;",name, &room1, &direction1, &room2, &direction2) == 5){
             lab[room1].num = room1;
             lab[room2].num = room2;
-            lab[room1].N = &lab[room2];
-            lab[room2].S = &lab[room1];
+            switch(direction1){
+                case 'N':
+                    lab[room1].N = &lab[room2];
+                    break;
+                case 'S':
+                    lab[room1].S = &lab[room2];
+                    break;
+                case 'E':
+                    lab[room1].E = &lab[room2];
+                    break;
+                case 'O':
+                    lab[room1].O = &lab[room2];
+                    break;
+
+                default:
+                    printf("No position");
+            }
+            switch(direction2){
+                case 'N':
+                    lab[room2].N = &lab[room1];
+                    break;
+                case 'S':
+                    lab[room2].S = &lab[room1];
+                    break;
+                case 'E':
+                    lab[room2].E = &lab[room1];
+                    break;
+                case 'O':
+                    lab[room2].O = &lab[room1];
+                    break;
+
+                default:
+                    printf("No position");
+
             }
         }
-            
+    } 
     else printf("False");
 }
