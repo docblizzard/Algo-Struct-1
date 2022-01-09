@@ -112,32 +112,36 @@ void mainloop(Salle *lab, int sizelab){
             switch(dir){
                 case 'N':
                     if (lab[player.pos].N){
-                        /*player.pos = lab[player.pos].N->num;
+                        player.pos = lab[player.pos].N->num;
                         printf("Tu prends la porte Nord et tu te retrouves dans la salle numéro %d\n", player.pos);
                         if (player.pos == sizelab){
                             printf("Tu viens de trouver la dernière salle ou se trouve Azatoth !");
                             found = 1;
                             loop = 1;
-                        }*/
+                        }
                         found = 1;
                         loop = 1;
                         break;
                     }
+                    else printf("Désolé mais soit ce chemin n'existe pas.\n");
+                        break;
                     
                     
                 case 'S':
                     if (lab[player.pos].S){
-                        /*player.pos = lab[player.pos].S->num;
+                        player.pos = lab[player.pos].S->num;
                         printf("Tu prends la porte Sud et tu te retrouves dans la salle numéro %d\n", player.pos);
                         if (player.pos == sizelab){
                             printf("Tu viens de trouver la dernière salle ou se trouve Azatoth !");
                             found = 1;
                             loop = 1;
-                        }*/
+                        }
                         found = 1;
                         loop = 1;
                         break;
                     }
+                    else printf("Désolé mais soit ce chemin n'existe pas.\n");
+                        break;
                     
                     
                 case 'E':
@@ -151,6 +155,8 @@ void mainloop(Salle *lab, int sizelab){
                         }
                         break;
                     }
+                    else printf("Désolé mais soit ce chemin n'existe pas.\n");
+                        break;
                     
                     
                 case 'O':
@@ -164,10 +170,12 @@ void mainloop(Salle *lab, int sizelab){
                         }
                         break;
                     }
+                    else printf("Désolé mais soit ce chemin n'existe pas.\n");
+                        break;
                     
 
                 default:
-                    printf("Désolé mais soit ce chemin n'existe pas soit ce que tu as tapé est incorrect \n");
+                    printf("Désolé mais ce que tu as tapé est incorrect \n");
                     found = 1;
                     loop = 1;
                     break;
