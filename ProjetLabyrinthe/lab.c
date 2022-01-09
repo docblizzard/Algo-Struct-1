@@ -22,22 +22,25 @@ typedef struct knight{
     int key;
 } Knight;
 
+void fillempty(char arr[], char charact);
 void viderBuffer();
+void restart(int *loop);
 void narratepath(Salle *lab, Knight player);
 void narratepathupgrade(Salle *lab, Knight player);
-void openpaths(Salle *lab, Knight player, Salle *path);
 void labcreation(Salle *lab, FILE * plan);
 void mainloop(Salle *lab, int sizelab);
 
 
 
 int main(void){
-    Salle lab[30] = {0};
+    Salle lab[35] = {0};
+    int l = 0;
     int sizelab = sizeof(lab)/sizeof(lab[0]);
     FILE *file = fopen("plan.pln", "r");
     labcreation(lab, file);
     fclose(file);
     mainloop(lab, sizelab);
+    
 }
 // Lecture du fichier texte et convertir en salles du labyrinthe
 void labcreation(Salle *lab, FILE * plan){
@@ -104,15 +107,18 @@ void mainloop(Salle *lab, int sizelab){
             printf("Dans quelle direction aller? :");
             scanf("%[n-s-e-o-N-S-E-O]%c",&dir);
             dir = toupper(dir);
+            // Après avoir tapé un charactère, celui ci est comparé avec un switch, si il est faux ou le chemin n'existe pas il est redemandé
             switch(dir){
                 case 'N':
+                    // Verifie que la salle demandé existe
                     if (lab[player.pos].N){
                         player.pos = lab[player.pos].N->num;
                         printf("Tu prends la porte Nord et tu te retrouves dans la salle numéro %d.\n", player.pos);
+                        // Si le joueur a atteind la fin du labyrinthe il gagne.
                         if (player.pos == sizelab){
                             printf("Tu viens de trouver la dernière salle ou se trouve Azatoth !");
                             found = 1;
-                            loop = 1;
+                            restart(&loop);
                         }
                         break;
                     }
@@ -127,7 +133,7 @@ void mainloop(Salle *lab, int sizelab){
                         if (player.pos == sizelab){
                             printf("Tu viens de trouver la dernière salle ou se trouve Azatoth !");
                             found = 1;
-                            loop = 1;
+                            restart(&loop);
                         }
                         break;
                     }
@@ -142,7 +148,7 @@ void mainloop(Salle *lab, int sizelab){
                         if (player.pos == sizelab){
                             printf("Tu viens de trouver la dernière salle ou se trouve Azatoth !");
                             found = 1;
-                            loop = 1;
+                            restart(&loop);
                         }
                         break;
                     }
@@ -157,7 +163,7 @@ void mainloop(Salle *lab, int sizelab){
                         if (player.pos == sizelab){
                             printf("Tu viens de trouver la dernière salle ou se trouve Azatoth !\n");
                             found = 1;
-                            loop = 1;
+                            restart(&loop);
                         }
                         break;
                     }
@@ -180,26 +186,7 @@ void viderBuffer(){
         c = getchar();
     }
 }
-/*
-void narratepath(Salle *lab, Knight player){
-    printf("Il y'a une porte");
-    if (lab[player.pos].N){
-        printf(" vers le Nord,");
-    }
-    if (lab[player.pos].S){
-        printf(" vers le Sud,");
-    }
-    if (lab[player.pos].E){
-        printf(" vers l'Est,");
-    }
-    if (lab[player.pos].O){
-        printf(" vers l'Ouest");
-    }
-    else printf(", il n'y aucune porte enfaite..");
-
-    printf(".\n");
-} */
-
+// Visualition graphique des salles
 void narratepathupgrade(Salle *lab, Knight player){
     printf("\n");
     if (lab[player.pos].N){
@@ -222,23 +209,19 @@ void narratepathupgrade(Salle *lab, Knight player){
     printf("\n\n");
 }
 
-
-void pathsolution(Salle *lab, Knight player, Salle *path){
-    
-
-
-void openpaths(Salle *lab, Knight player, Salle *path){
-    if (lab[player.pos].N){
-        openpaths(lab[player.pos].N, player, path);
-
+// Lorsque le joueur a trouvé la dernière salle il a la possibilité de recommencer.
+void restart(int *loop){
+    viderBuffer();
+    char decision;
+    printf("\nTu as gagné ! Veux-tu recommencer? Y/N : ");
+    scanf("%[y-Y-n-N]%c", &decision);
+    decision = toupper(decision);
+    while(decision != 'Y' && decision != 'N'){
+        printf("\nC'est soit Y ou N, réessaye : ");
+        viderBuffer();
+        scanf("%[y-Y-n-N]%c", &decision);
     }
-    if (lab[player.pos].E){
-       neighb[1] = *lab[player.pos].E;
-    }
-    if (lab[player.pos].O){
-        neighb[2] = *lab[player.pos].O;
-    }
-    if (lab[player.pos].S){
-        neighb[3] = *lab[player.pos].S;
-    }
-} 
+    if (decision == 'Y') *loop = 0;
+
+    if (decision == 'N') *loop = 1;
+}
