@@ -23,33 +23,21 @@ typedef struct knight{
 } Knight;
 
 void viderBuffer();
-int lire(char *chaine, int longueur);
-
 void narratepath(Salle *lab, Knight player);
 void narratepathupgrade(Salle *lab, Knight player);
+void openpaths(Salle *lab, Knight player, Salle *path);
 void labcreation(Salle *lab, FILE * plan);
 void mainloop(Salle *lab, int sizelab);
 
 
 
-
-
-
 int main(void){
-    Salle lab[6] = {0};
-    Salle test[3];
+    Salle lab[30] = {0};
     int sizelab = sizeof(lab)/sizeof(lab[0]);
     FILE *file = fopen("plan.pln", "r");
-    //printf("%d ", lab[3].num);
     labcreation(lab, file);
     fclose(file);
     mainloop(lab, sizelab);
-
-
-    //printf("%d ", lab[0].num);
-    //printf("%d ", lab[1].num);
-    //printf("%d ", lab[3].O->num);
-
 }
 // Lecture du fichier texte et convertir en salles du labyrinthe
 void labcreation(Salle *lab, FILE * plan){
@@ -113,7 +101,7 @@ void mainloop(Salle *lab, int sizelab){
         while(!found){
             char dir = 0;
             narratepathupgrade(lab, player);
-            printf("Dans quelle direction aller? Soit N, S, E, O ! ");
+            printf("Dans quelle direction aller? :");
             scanf("%[n-s-e-o-N-S-E-O]%c",&dir);
             dir = toupper(dir);
             switch(dir){
@@ -150,7 +138,7 @@ void mainloop(Salle *lab, int sizelab){
                 case 'E':
                     if (lab[player.pos].E){
                         player.pos = lab[player.pos].E->num;
-                        printf("Tu prends la porte Est et tu te retrouves dans la salle numéro %d.\n.", player.pos);
+                        printf("Tu prends la porte Est et tu te retrouves dans la salle numéro %d.\n", player.pos);
                         if (player.pos == sizelab){
                             printf("Tu viens de trouver la dernière salle ou se trouve Azatoth !");
                             found = 1;
@@ -165,7 +153,7 @@ void mainloop(Salle *lab, int sizelab){
                 case 'O':
                     if (lab[player.pos].O){
                         player.pos = lab[player.pos].O->num;
-                        printf("Tu prends la porte Ouest et tu te retrouves dans la salle numéro%d.\nbleac", player.pos);
+                        printf("Tu prends la porte Ouest et tu te retrouves dans la salle numéro %d.\n", player.pos);
                         if (player.pos == sizelab){
                             printf("Tu viens de trouver la dernière salle ou se trouve Azatoth !\n");
                             found = 1;
@@ -186,28 +174,13 @@ void mainloop(Salle *lab, int sizelab){
     }
 }
 
-int lire(char *chaine, int longueur){
-    char *positionEntree = NULL;
- 
-    // On lit le texte saisi au clavier
-    if (fgets(chaine, longueur, stdin) != NULL){
-
-        positionEntree = strchr(chaine, '\n'); 
-        if (positionEntree != NULL){ 
-            *positionEntree = '\0';
-        }
-        else viderBuffer(); return 1; 
-    }
-    else viderBuffer(); return 0; 
-}
-
 void viderBuffer(){
     int c = 0;
     while (c != '\n' && c != EOF){
         c = getchar();
     }
 }
-
+/*
 void narratepath(Salle *lab, Knight player){
     printf("Il y'a une porte");
     if (lab[player.pos].N){
@@ -225,24 +198,47 @@ void narratepath(Salle *lab, Knight player){
     else printf(", il n'y aucune porte enfaite..");
 
     printf(".\n");
-}
+} */
 
 void narratepathupgrade(Salle *lab, Knight player){
     printf("\n");
     if (lab[player.pos].N){
-        printf("          [ N ]\n"
-        "            |\n");
+        printf("                      [ N ]\n"
+        "                        |\n");
     }
-    if (lab[player.pos].E){
-        printf("[ E ]-----");
-    }
-    printf("[ P ]");
     if (lab[player.pos].O){
-        printf("-----[ O ]");
+        printf("            [ O ]-----");
+        printf("[ P ]");
+    }
+    else printf("                      [ P ]");
+
+    if (lab[player.pos].E){
+        printf("-----[ E ]");
     }
     if (lab[player.pos].S){
-        printf("\n            |"
-        "\n          [ S ]");
+        printf("\n                        |"
+        "\n                      [ S ]");
     } 
     printf("\n\n");
 }
+
+
+void pathsolution(Salle *lab, Knight player, Salle *path){
+    
+
+
+void openpaths(Salle *lab, Knight player, Salle *path){
+    if (lab[player.pos].N){
+        openpaths(lab[player.pos].N, player, path);
+
+    }
+    if (lab[player.pos].E){
+       neighb[1] = *lab[player.pos].E;
+    }
+    if (lab[player.pos].O){
+        neighb[2] = *lab[player.pos].O;
+    }
+    if (lab[player.pos].S){
+        neighb[3] = *lab[player.pos].S;
+    }
+} 
